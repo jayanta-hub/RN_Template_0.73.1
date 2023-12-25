@@ -7,21 +7,21 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import * as yup from 'yup';
 import styles from './styles';
-import { scale } from '../../../Infrastructure/utils/screenUtility';
+import {scale} from '../../../Infrastructure/utils/screenUtility';
 import Loader from '../../../Infrastructure/component/Loader/Loader';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import Logo from '../../../Infrastructure/component/Logo/Logo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from '../../../Infrastructure/assets/colors/colors';
 import CustomButton from '../../../Infrastructure/component/CustomButton/CustomButton';
-import { AuthContext } from '../../../Infrastructure/utils/context';
+import {AuthContext} from '../../../Infrastructure/utils/context';
 import Toast from 'react-native-simple-toast';
-import { connect } from 'react-redux';
-import { logIn } from '../../../application/store/actions/auth';
+// import {connect} from 'react-redux';
+// import {logIn} from '../../../application/store/actions/auth';
 const loginValidationSchema = yup.object().shape({
   userID: yup.string().required('User Name / ID Required'),
   password: yup.string().required('Password Required'),
@@ -30,29 +30,31 @@ const LoginComponent = props => {
   const navigation = useNavigation();
   const [status, setStatus] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
-  const { signIn } = React.useContext(AuthContext);
+  const {signIn} = React.useContext(AuthContext);
   const formSubmitHandler = async formData => {
     const payload = {
       userid: formData.userID,
       password: formData.password,
     };
-    props
-      ?.userLogin(payload)
-      .then(res => {
-        console.log(
-          '🚀 ~ file: LoginComponent.js:42 ~ formSubmitHandler ~ res:',
-          res,
-        );
-        Toast.show(res?.message || 'success.', Toast.LONG);
-        signIn();
-      })
-      .catch(e => {
-        console.log(
-          '🚀 ~ file: LoginComponent.js:50 ~ formSubmitHandler ~ e:',
-          e,
-        );
-        Toast.show(e?.message || 'Something went wrong.', Toast.LONG);
-      });
+    signIn();
+
+    // props
+    //   ?.userLogin(payload)
+    //   .then(res => {
+    //     console.log(
+    //       '🚀 ~ file: LoginComponent.js:42 ~ formSubmitHandler ~ res:',
+    //       res,
+    //     );
+    //     Toast.show(res?.message || 'success.', Toast.LONG);
+    //     signIn();
+    //   })
+    //   .catch(e => {
+    //     console.log(
+    //       '🚀 ~ file: LoginComponent.js:50 ~ formSubmitHandler ~ e:',
+    //       e,
+    //     );
+    //     Toast.show(e?.message || 'Something went wrong.', Toast.LONG);
+    //   });
   };
   const {
     handleChange,
@@ -63,7 +65,7 @@ const LoginComponent = props => {
     errors,
     handleReset,
   } = useFormik({
-    initialValues: { userID: '', password: '' },
+    initialValues: {userID: '', password: ''},
     enableReinitialize: true,
     validateOnBlur: true,
     validateOnChange: true,
@@ -71,7 +73,7 @@ const LoginComponent = props => {
     validationSchema: loginValidationSchema,
   });
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView style={{flex: 1}}>
       <SafeAreaView style={styles.container}>
         <Loader status={status} />
         <ScrollView
@@ -79,9 +81,9 @@ const LoginComponent = props => {
             flexGrow: 1,
             justifyContent: 'space-between',
           }}>
-          <View style={{ flex: 1, justifyContent: 'space-between' }}>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity style={{ ...styles.logo }}>
+          <View style={{flex: 1, justifyContent: 'space-between'}}>
+            <View style={{flex: 1}}>
+              <TouchableOpacity style={{...styles.logo}}>
                 <Logo />
               </TouchableOpacity>
               <View style={styles.form}>
@@ -120,7 +122,7 @@ const LoginComponent = props => {
                         onChangeText={handleChange('password')}
                         secureTextEntry={passwordVisible}
                         autoCorrect={false}
-                        style={{ ...styles.TextInputs, flex: 1 }}
+                        style={{...styles.TextInputs, flex: 1}}
                       />
                       <FontAwesome5
                         name={passwordVisible ? 'eye' : 'eye-slash'}
@@ -138,7 +140,7 @@ const LoginComponent = props => {
                       <Text style={styles.errorMessage}>{errors.password}</Text>
                     )}
                   </View>
-                  <View style={{ marginTop: scale(20) }}>
+                  <View style={{marginTop: scale(20)}}>
                     <CustomButton title="Login" onPress={handleSubmit} />
                   </View>
                   <TouchableOpacity
@@ -146,12 +148,12 @@ const LoginComponent = props => {
                     onPress={() => {
                       navigation.navigate('ForgotUserName');
                     }}>
-                    <Text style={{ ...styles.linkText }}>
+                    <Text style={{...styles.linkText}}>
                       Forgot User Name / ID ?
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={{ marginTop: scale(15) }}
+                    style={{marginTop: scale(15)}}
                     onPress={() => {
                       navigation.navigate('ForgotPassword');
                     }}>
@@ -181,8 +183,8 @@ const LoginComponent = props => {
     </KeyboardAvoidingView>
   );
 };
-const mapDispatchToProps = {
-  userLogin: payload => logIn(payload),
-};
+// const mapDispatchToProps = {
+//   userLogin: payload => logIn(payload),
+// };
 
-export default connect(null, mapDispatchToProps)(LoginComponent);
+export default LoginComponent;

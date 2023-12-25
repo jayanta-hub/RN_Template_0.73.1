@@ -7,7 +7,7 @@ import axios from 'axios';
 import thunk from 'redux-thunk';
 import axiosMiddleware from 'redux-axios-middleware';
 import logger from 'redux-logger';
-import { baseURL } from '../config';
+import {baseURL} from '../config';
 import appReducer from './reducers';
 
 const client = axios.create({
